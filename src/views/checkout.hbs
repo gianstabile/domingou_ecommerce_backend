@@ -1,0 +1,102 @@
+<h1 class="my-4">{{title}}</h1>
+<h2>Your order:</h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col-9 py-3">
+      {{#if productsOutStock}}
+        <h5>Some products could not be purchased:</h5>
+        <table class="table w-100">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each productsOutStock}}
+              <tr class="align-middle">
+                <td>{{product.title}}</td>
+              </tr>
+            {{/each}}
+
+          </tbody>
+        </table>
+      {{else}}
+        <h4>Products ready to be paid:</h4>
+      {{/if}}
+
+      <div class="my-5">
+        <h5>Details of order:</h5>
+        <table class="table w-100">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each successProducts}}
+              <tr class="align-middle">
+                <td><a href="/product/{{product._id}}">{{product.title}}</a></td>
+                <td>{{quantity}}</td>
+                <td>${{product.price}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="col-3 d-flex align-items-center justify-content-end">
+      <div class="my-3">
+        <div class="d-flex flex-column align-items-end">
+          <h3 class="text-muted">Total amount:</h3>
+          <h2>${{order.amount}}</h2>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col">
+      <h4>Payment</h4>
+
+      <form id="payment-form" action="/api/orders/{{order._id}}/payment" method="POST" data-stripe="{{stripePublicKey}}" data-order="{{order._id}}" data-amount="{{order.amount}}">
+        <div class="form-group row mt-2">
+          <div class="col-sm">
+            <label class="form-label border-0" for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" value="{{user.name}}" required readonly disabled="disabled" />
+          </div>
+          <div class="col-sm">
+            <label class="form-label border-0" for="email">Email</label>
+            <input class="form-control" type="email" id="email" name="email" value="{{user.email}}" required readonly disabled="disabled" />
+          </div>
+        </div>
+
+        <!-- Mostrar el elemento de tarjeta de Stripe -->
+        <div class="form-group row mt-2">
+          <label class="form-label" for="card-element">Card</label>
+          <div id="card-element"></div>
+
+          <div id="card-errors" role="alert"></div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-end gap-2 p-2 m-3">
+  <div>
+    <a href="/products" class="btn btn-warning">Return</a>
+  </div>
+  <div>
+    <button class="btn btn-primary font-weight-bold" id="submit-button" type="submit">Pay now</button>
+  </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="/js/checkout.js"></script>

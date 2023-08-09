@@ -1,0 +1,316 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Los carritos fueron listados exitosamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "500":
+          description: Error en la solicitud de listado de carritos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      summary: Crea un nuevo carrito
+      tags:
+        - Carts
+      responses:
+        "201":
+          description: El carrito fue creado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "500":
+          description: Error en la solicitud de creación del carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito por su ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito a obtener
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: El carrito fue obtenido exitosamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "404":
+          description: El carrito con el ID especificado no fue encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Error en la solicitud de obtención del carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      summary: Actualiza un carrito existente
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito a actualizar
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: El carrito fue actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "404":
+          description: El carrito con el ID especificado no fue encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Error en la solicitud de actualización del carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: Elimina un carrito existente
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito a eliminar
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: El carrito fue eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "404":
+          description: El carrito con el ID especificado no fue encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Error en la solicitud de eliminación del carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agrega un producto al carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: ID del producto a agregar
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: El producto fue agregado exitosamente al carrito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "404":
+          description: El carrito o el producto con los IDs especificados no fue encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Error en la solicitud de agregación del producto al carrito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      summary: Actualiza la cantidad de un producto en el carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: ID del producto a actualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                quantity:
+                  type: number
+      responses:
+        "200":
+          description: La cantidad del producto en el carrito fue actualizada exitosamente.
+        "404":
+          description: El carrito o el producto con los IDs especificados no fue encontrado.
+        "500":
+          description: Error en la solicitud de actualización de la cantidad del producto en el carrito.
+
+    delete:
+      summary: Elimina un producto del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: ID del producto a eliminar
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: El producto fue eliminado exitosamente del carrito.
+        "404":
+          description: El carrito o el producto con los IDs especificados no fue encontrado.
+        "500":
+          description: Error en la solicitud de eliminación del producto del carrito.
+
+  /api/carts/{cid}/purchase:
+    get:
+      tags:
+        - Carts
+      summary: Realiza una compra con el carrito
+      parameters:
+        - in: path
+          name: cartId
+          schema:
+            type: string
+          required: true
+          description: ID del carrito
+      responses:
+        "200":
+          description: Éxito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "404":
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerado de mongo
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+                description: Id del producto en la colección "Products"
+              quantity:
+                type: number
+                description: Cantidad del producto en el carrito
+      example:
+        _id: ObjectId(6440738afe678c1bcb3b6155)
+        products:
+          - product: "product123"
+            quantity: 2
+          - product: "product456"
+            quantity: 1
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        error:
+          type: string
+
+    CartProduct:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID del producto en el carrito
+        product:
+          $ref: "#/components/schemas/Product"
+          description: Detalles del producto
+        quantity:
+          type: integer
+          description: Cantidad del producto en el carrito

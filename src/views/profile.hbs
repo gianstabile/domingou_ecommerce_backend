@@ -1,0 +1,100 @@
+<section class="container h-auto" style="background-color: #eee;">
+  <div class="container-fluid py-5 h-auto">
+    <div class="row d-flex justify-content-center">
+      <div class="row d-flex justify-content-center align-items-start h-100">
+        <div class="col-md-12 col-xl-4 d-flex flex-column gap-3 h-100">
+          <div class="card h-100" style="border-radius: 15px;">
+            <div class="card-body text-center">
+
+              <div class="mt-3 mb-4" id="profilePictureContainer" data-userid="{{userId}}">
+                <img src="{{profilePicture}}" class="rounded-circle img-fluid" style="width: 100px;" id="profilePicturePreview" />
+              </div>
+
+              <h4 class="mb-2">{{user.name}}</h4>
+              <p class="text-muted mb-4"><a href="#!">{{user.email}}</a></p>
+              <p class="text-muted mb-4">Role: {{role}}</p>
+              <div class="mb-4 pb-2">
+                <button type="button" class="btn btn-outline-dark btn-floating p-3">
+                  <i class="fab fa-facebook-f fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-floating p-3">
+                  <i class="fab fa-twitter fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-floating p-3">
+                  <i class="fab fa-skype fa-lg"></i>
+                </button>
+              </div>
+
+              <div class="card-body text-center">
+                <!-- Formulario para subir documentos -->
+                <form id="documentForm" action="/api/users/{{userId}}/documents" method="POST" enctype="multipart/form-data" data-userid="{{userId}}">
+                  <div class="mb-3">
+                    <label for="document" class="form-label"><h5>Upload Docs</h5></label>
+                    <input type="file" name="document" class="form-control" id="document" accept=".pdf,.doc,.docx" />
+                    <div class="m-3 d-flex justify-content-end">
+                      <button type="submit" class="btn btn-dark" id="uploadButton">Upload</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+
+          {{! DOCUMENTS }}
+          <div class="card h-100" style="border-radius: 15px; ">
+            <div id="documentList" class="card-body text-center">
+              <div class="p-2">
+                <h5>My Documents</h5>
+              </div>
+              {{#if documents}}
+                <ul class="list-group">
+                  {{#each documents}}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <a href="{{this.docReference}}" target="_blank">{{this.name}}</a>
+                      <button href="#" class="btn btn-dark text-light" onclick="deleteDocument('{{this.user}}', '{{this._id}}')">X</button>
+                    </li>
+                  {{/each}}
+                </ul>
+              {{else}}
+                <div>
+                  <div class="my-4">
+                    <p>No documents found 🤷‍♂️</p>
+                  </div>
+                </div>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+        {{! ORDERS }}
+        <div class="col-md-12 col-xl-4">
+          <div class="card" style="border-radius: 15px; ">
+            <div id="documentList" class="card-body text-center">
+              <div class="p-2">
+                <h5>My Orders</h5>
+              </div>
+              <p>Last 10 orders:</p>
+              {{#if orders}}
+                <ul class="list-group">
+                  {{#each (slice (reverse orders) 0 10)}}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <small><strong>DATE:</strong> {{purchase_datetime}} - <strong>AMOUNT:</strong> $ {{amount}}</small>
+                    </li>
+                  {{/each}}
+                </ul>
+              {{else}}
+                <div>
+                  <div class="my-4">
+                    <p>No orders found 🤷‍♂️</p>
+                  </div>
+                </div>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="/js/profile.js"></script>

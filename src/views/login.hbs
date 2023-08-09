@@ -1,0 +1,49 @@
+<section class="vh-50" style="background-color: #eee;">
+  <div class="container py-5 h-auto">
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start mx-auto w-100 d-flex justify-content-center">
+
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="card">
+          <div class="card-body py-5 px-md-5">
+            <form id="loginForm" action="/api/sessions/login" method="POST">
+
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <input type="email" id="email" class="form-control" name="email" />
+                <label class="form-label" for="email">Email address</label>
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                <input type="password" id="password" class="form-control" name="password" />
+                <label class="form-label" for="password">Password</label>
+              </div>
+
+              <!-- Submit button -->
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-warning btn-block mb-4">
+                  Sign in
+                </button>
+                <div>
+                  <a href="/api/sessions/github" title="Login with Github"><img
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZdJREFUSEu1lYExBVEMRe+vABWgAlSAClABKkAFqAAdUMGnAlSADuiACpgzk+zkZ7L735rZzOzs7puXe5P7kryZJrbZxPhqITiUdCBp2x5ierfnRdLDUJBDBADfSNpYkuWnpAtJj9W+PoIrSZcj5bs1ogW3iuA/4A56J+k8MmSCPUnPtuFJEmQnks5s7cPeW/ZG/3vbc2xrR1GuTICe67bx2gj4XZX0nSSLazFrMDZ9byTgUOcBhOiIvsWyrKeW2UKZkqqnCei+JMqwxSjhtyq4mAFgu0FrnMZY9KdPdnCOBGi8YoivkjjwMRYJOuxI8BvQJiGIEZDN2pjwrcpcgS+fADGDfMi0P93ZYjQXY8Wtq8C+Mv2x86D86M7cAw5EL1B5OZCyTHGiSUiTEiUqL1u6mp5wIoDJmKrjO1onT64i/n1UAESZOUjsagfLkvr6Qv9Uw871LKdjCLUaikuHnfs7CQ1DNj7UohSZoMpy8EZDLmRg+FXOToDmnE85VlquTIjIgmyiMUq47cqbzDe2ELT0Qe+eyQn+AIklVhnz1DvpAAAAAElFTkSuQmCC"
+                    />
+                  </a>
+                  |
+                  <a href="/restore-password" title="Forgot password"><img
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAANdJREFUSEvtlFENAjEQRN9JwAFOQAIOAAUEBYADJIACwAEowQIOIEN2Q9O0aftxfFxuv3ppO287nV5Hz9X1rM8IKDo8TIsWwAaY2/nvwAk4F/1ILIgtktAyI6S5dSskBKjziwlsgauNV8DOxgIIVF0hQFbMAIkfI4W9QW6AGqmuEPC2XRPgFSlMgWe1Kr8H/FeAW3QAZElYKYv8xN5k/P3dn7tkCXoslSoHhpfcDBDQO03ZLaASlaviCXyjHphASpTqYdFsiqeLDfNf1BD38tLRoqJHvVv0ASEmJRmGvAA6AAAAAElFTkSuQmCC"
+                    />
+                  </a>
+
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<script src="/js/login.js"></script>

@@ -1,0 +1,4 @@
+info: This is an info message
+warning: This is a warning message
+error: This is an error message
+fatal: This is a fatal message

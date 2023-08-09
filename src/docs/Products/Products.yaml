@@ -1,0 +1,271 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron listados exitosamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Products"
+        "500":
+          description: Error en la solicitud de listado de productos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - Products
+      summary: Crea un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewProduct"
+      responses:
+        "200":
+          description: Éxito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Error de solicitud
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por su ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: ID del producto a obtener
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: El producto fue obtenido exitosamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Products"
+        "404":
+          description: El producto con el ID especificado no fue encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Error en la solicitud de obtención del producto.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      summary: Crea un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                thumbnails:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+        responses:
+          "201":
+            description: El producto fue creado exitosamente.
+            content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Products"
+          "400":
+            description: Error en los datos proporcionados para crear el producto.
+            content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          "500":
+            description: Error en la solicitud de creación del producto.
+            content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      summary: Actualiza un producto existente
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: ID del producto a actualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProduct"
+      responses:
+        "200":
+          description: El producto fue actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: El producto con el ID especificado no fue encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Error en la solicitud de actualización del producto.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: Elimina un producto existente
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: ID del producto a eliminar
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: El producto fue eliminado exitosamente.
+        "404":
+          description: El producto con el ID especificado no fue encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Error en la solicitud de eliminación del producto.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerado de mongo
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio unitario del producto
+        category:
+          type: string
+          description: Categoría del producto
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+        status:
+          type: string
+          description: Estado del producto
+        code:
+          type: number
+          description: Código del producto
+        thumbnails:
+          type: array
+          items:
+            type: string
+          description: Imágenes en miniatura del producto
+        owner:
+          type: string
+          description: Id del propietario del producto en la colección "Users"
+      example:
+        _id: ObjectId(6440738afe678c1bcb3b6155)
+        title: ACHALAY MENTA
+        description: Blend de diferentes variedades de tabacos Virginia nacionales de intensidad media. Producto Argentino elaborado y fraccionado en la provincia de Salta, saborizado con menta. Presentación Pouch por 40 gr.
+        price: 1500
+        category: Tabacos rubios
+        stock: 10
+        status: Active
+        code: 12345678
+        thumbnails:
+          - thumbnail1.jpg
+          - thumbnail2.jpg
+        owner: "user123"
+    NewProduct:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+      status:
+        type: integer
+      code:
+        type: string
+      stock:
+        type: integer
+      category:
+        type: string
+    UpdateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        status:
+          type: integer
+        code:
+          type: string
+        stock:
+          type: integer
+        category:
+          type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        error:
+          type: string

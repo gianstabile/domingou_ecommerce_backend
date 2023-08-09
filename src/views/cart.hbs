@@ -1,0 +1,44 @@
+<h1 class="my-4">{{title}}</h1>
+{{#if cart}}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Thumbnail</th>
+        <th scope="col">Title</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each products}}
+        <tr class="align-middle">
+          <td><img src="{{product.thumbnails}}" alt="Thumbnail" style="width:5rem" /></td>
+          <td><a href="/product/{{product._id}}">
+              {{product.title}}</a>
+          </td>
+          <td>${{product.price}}</td>
+          <td>{{quantity}}</td>
+          <td>
+            <button href="#" class="btn btn-dark text-light" onclick="deleteProduct('{{cartId}}', '{{product._id}}')">X</button>
+          </td>
+        </tr>
+      {{/each}}
+
+    </tbody>
+  </table>
+{{else}}
+  <div>
+    <div class="my-4">
+      <h5 colspan="5">No products in cart 🤷‍♂️</h5>
+    </div>
+  </div>
+{{/if}}
+<div class="d-flex justify-content-end p-2 m-3">
+  <div>
+    <a href="/products" class="btn btn-warning">Return</a>
+    <a href="#" class="btn btn-danger" onclick="emptyCart('{{cartId}}')">Empty cart</a>
+    <a href="#" class="btn btn-success" id="process-button" onclick="processOrder('{{cartId}}')">Process order</a>
+  </div>
+</div>
+<script src="/js/cart.js"></script>
