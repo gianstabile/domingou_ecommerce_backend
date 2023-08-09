@@ -77,12 +77,12 @@
     {{/if}}
     {{! LIST PRODUCTS }}
     <div class="row">
-      <div class="my-4 w-100">
+      <div class="my-3">
         {{#if products}}
-          <div class="row mx-auto">
+          <div class="row d-flex justify-content-center justify-content-xl-start">
             {{#each products}}
-              <div class="card m-2" style="width: 15rem;">
-                <a href="/product/{{this._id}}"><img class="card-img-top" src="{{this.thumbnails}}" alt="{{this.title}}" /></a>
+              <div class="card m-2 p-2" style="width: 15rem;">
+                <a href="/product/{{this._id}}"><img class="card-img-top img-fluid" src="{{this.thumbnails}}" alt="{{this.title}}" /></a>
                 <div class="card-body text-center">
                   <h5 class="card-title"><a href="/product/{{this._id}}">{{this.title}}</a></h5>
                   <p class="card-text product-description">{{this.description}}</p>
