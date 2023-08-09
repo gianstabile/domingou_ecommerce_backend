@@ -12,6 +12,13 @@ const viewsService = new ViewsService();
 const { stripe } = config;
 
 export default class ViewsController {
+  async getHome(req, res) {
+    res.render("home", {
+      sectionPage: "Welcome",
+      nameShopping: "DOMINGOU",
+    });
+  }
+
   async getProducts(req, res) {
     try {
       const { limit = 10, page = 1, category, status, sortBy } = req.query;

@@ -5,6 +5,7 @@ import ViewsController from "../controllers/views.controller.js";
 const router = Router();
 const viewsController = new ViewsController();
 
+router.get("/", viewsController.getHome);
 router.get("/products", viewsController.getProducts);
 router.get("/product/:pid", viewsController.getProductById);
 router.get("/cart", authorize(["user"]), viewsController.getCart);
